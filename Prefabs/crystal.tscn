@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmwaeh6je0h45"]
+
+[ext_resource type="PackedScene" uid="uid://chnn1wdympw2" path="res://Models/red_crystal_game_ready_asset/scene.gltf" id="1_yn0a1"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="scene" parent="." instance=ExtResource("1_yn0a1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.56553, -1.7194, 6.80955)

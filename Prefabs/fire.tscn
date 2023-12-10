@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d28eblfgqm1d2"]
+
+[ext_resource type="Shader" path="res://Prefabs/fire.gdshader" id="1_6ne1o"]
+[ext_resource type="Texture2D" uid="uid://drcyqcbf8p1fs" path="res://Textures/blank.bmp" id="1_l0ep1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wyjf0"]
+shader = ExtResource("1_6ne1o")
+shader_parameter/pixelScale = 2.0
+shader_parameter/centerRect = Vector2(0.48, 0.515)
+shader_parameter/sizeRect = Vector2(0.03, 0.305)
+shader_parameter/rotationDegreesRect = 1.0
+shader_parameter/centerCircle = Vector2(0.535, 0.625)
+shader_parameter/circleRadius = 0.14
+shader_parameter/cornerRadius = 0.065
+
+[node name="Fire" type="Sprite2D"]
+material = SubResource("ShaderMaterial_wyjf0")
+position = Vector2(128, 128)
+scale = Vector2(256, 256)
+texture = ExtResource("1_l0ep1")
