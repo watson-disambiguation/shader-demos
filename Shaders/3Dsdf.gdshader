@@ -2,10 +2,11 @@ shader_type spatial;
 #include "Libraries/SDFLibrary.gdshaderinc"
 
 render_mode specular_disabled;
-render_mode diffuse_burley;
+render_mode unshaded;
 render_mode cull_front;
 
-uniform vec3 color : source_color;
+uniform vec3 innerColor : source_color;
+uniform vec3 outerColor : source_color;
 uniform sampler3D noiseTex;
 uniform float noiseScale;
 uniform float raycastStepSize;
@@ -66,7 +67,10 @@ void fragment() {
 		discard;
 	}
 	NORMAL = normal;
-	ALBEDO = color;
-	
+	float dotProduct = dot(normal,-viewDir);
+	dotProduct = smoothstep(0,1,dotProduct);
+	vec3 finalColor =  mix(outerColor,innerColor,dotProduct);
+	ALBEDO = finalColor;
 }
+
 

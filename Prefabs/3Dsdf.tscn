@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkcmhpnkrpc5t"]
+[gd_scene load_steps=7 format=3 uid="uid://bkcmhpnkrpc5t"]
 
 [ext_resource type="Shader" path="res://Shaders/3Dsdf.gdshader" id="1_8mymq"]
 
@@ -12,19 +12,23 @@ noise = SubResource("FastNoiseLite_p3ti0")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efa4c"]
 render_priority = 0
 shader = ExtResource("1_8mymq")
-shader_parameter/color = Color(0.54902, 0, 0.545098, 1)
-shader_parameter/noiseScale = 0.145
+shader_parameter/innerColor = Color(1, 0.6, 0, 1)
+shader_parameter/outerColor = Color(1, 0.0823529, 0, 1)
+shader_parameter/noiseScale = 0.085
 shader_parameter/raycastStepSize = 0.01
 shader_parameter/raycastSteps = 100
 shader_parameter/sphereCenter1 = null
-shader_parameter/sphereRadius1 = 0.29
-shader_parameter/sphereCenter2 = Vector3(0.08, 0.155, -0.1)
-shader_parameter/sphereRadius2 = 0.295
-shader_parameter/mergeRadius = 0.27
+shader_parameter/sphereRadius1 = 0.325
+shader_parameter/sphereCenter2 = Vector3(0, 0.32, 0)
+shader_parameter/sphereRadius2 = 0.16
+shader_parameter/mergeRadius = 0.155
 shader_parameter/noiseTex = SubResource("NoiseTexture3D_weoqs")
 
 [sub_resource type="SphereMesh" id="SphereMesh_vasl7"]
 material = SubResource("ShaderMaterial_efa4c")
+
+[sub_resource type="Environment" id="Environment_63m5f"]
+glow_enabled = true
 
 [node name="Node3D" type="Node3D"]
 
@@ -37,3 +41,4 @@ transform = Transform3D(0.592713, -0.000441416, 0.805414, -0.796641, 0.146874, 0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.947277, 0.320415, 0, -0.320415, 0.947277, 0, 0.70637, 1.45129)
+environment = SubResource("Environment_63m5f")
