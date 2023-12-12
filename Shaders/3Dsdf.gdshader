@@ -9,13 +9,14 @@ uniform vec3 innerColor : source_color;
 uniform vec3 outerColor : source_color;
 uniform sampler3D noiseTex;
 uniform float noiseScale;
-uniform float raycastStepSize;
+uniform float raycastLength;
 uniform int raycastSteps;
 uniform vec3 sphereCenter1;
 uniform float sphereRadius1;
 uniform vec3 sphereCenter2;
 uniform float sphereRadius2;
 uniform float mergeRadius;
+uniform float depthMultiplier;
 
 const float h = 0.0001;
 
@@ -42,34 +43,37 @@ varying vec3 viewDir;
 
 
 
-vec3 raycast() {
+vec4 raycast() {
+	float raycastStepSize = raycastLength / float(raycastSteps);
 	vec3 raycastStep = viewDir * raycastStepSize;
 	vec3 startPos = pos - raycastStep * float(raycastSteps);
 	vec3 currPos = startPos;
+	float distThrough = 0.;
+	vec3 normal = vec3(0);
 	for(int i = 0; i < raycastSteps; i++) {
 		float sdfVal = sdf(currPos);
-		if(sdfVal < 0.) {
-			return normalize(sdfGradient(currPos));
-		}
+		
+		distThrough += raycastStepSize * step(0,-sdfVal);
+		
 		currPos += raycastStep;
 	}
-	return vec3(0);
+	return vec4(normal,distThrough);
 }
 
 void vertex() {
-	pos = (MODEL_MATRIX * vec4(VERTEX,1.)).xyz;
-	viewDir = normalize(pos - CAMERA_POSITION_WORLD);
+	pos = VERTEX;
+	mat4 invModelMatrix = inverse(MODEL_MATRIX);
+	viewDir = normalize(pos - (invModelMatrix * vec4(CAMERA_POSITION_WORLD,1.)).xyz);
 }
 
 void fragment() {
-	vec3 normal = raycast();
-	if(length(normal) < h) {
+	vec4 raycastResult = raycast();
+	vec3 normal = raycastResult.xyz;
+	float distThrough = raycastResult.w * depthMultiplier;
+	if(distThrough < h) {
 		discard;
 	}
-	NORMAL = normal;
-	float dotProduct = dot(normal,-viewDir);
-	dotProduct = smoothstep(0,1,dotProduct);
-	vec3 finalColor =  mix(outerColor,innerColor,dotProduct);
+	vec3 finalColor =  mix(outerColor,innerColor,distThrough);
 	ALBEDO = finalColor;
 }
 

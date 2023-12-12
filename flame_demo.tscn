@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://u1yfqrf2l21t"]
+
+[ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Prefabs/SDFFlame.tscn" id="1_mcist"]
+
+[node name="FlameDemo" type="Node3D"]
+
+[node name="SDF Flame" parent="." instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173736, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="SDF Flame2" parent="." instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42453, 0, -0.741873)
+
+[node name="SDF Flame3" parent="." instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.831151, 0.133189, 0.54559)

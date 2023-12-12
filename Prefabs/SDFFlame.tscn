@@ -1,44 +1,44 @@
 [gd_scene load_steps=7 format=3 uid="uid://bkcmhpnkrpc5t"]
 
 [ext_resource type="Shader" path="res://Shaders/3Dsdf.gdshader" id="1_8mymq"]
+[ext_resource type="Script" path="res://Prefabs/SDFFlame.gd" id="1_vdpew"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_p3ti0"]
+noise_type = 3
+seed = 170
+frequency = 0.0355
 
 [sub_resource type="NoiseTexture3D" id="NoiseTexture3D_weoqs"]
+resource_local_to_scene = true
 seamless = true
 seamless_blend_skirt = 0.701
 noise = SubResource("FastNoiseLite_p3ti0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efa4c"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_8mymq")
 shader_parameter/innerColor = Color(1, 0.6, 0, 1)
 shader_parameter/outerColor = Color(1, 0.0823529, 0, 1)
-shader_parameter/noiseScale = 0.085
-shader_parameter/raycastStepSize = 0.01
-shader_parameter/raycastSteps = 100
-shader_parameter/sphereCenter1 = null
-shader_parameter/sphereRadius1 = 0.325
-shader_parameter/sphereCenter2 = Vector3(0, 0.32, 0)
-shader_parameter/sphereRadius2 = 0.16
-shader_parameter/mergeRadius = 0.155
+shader_parameter/noiseScale = 0.305
+shader_parameter/raycastLength = 1.0
+shader_parameter/raycastSteps = 50
+shader_parameter/sphereCenter1 = Vector3(0, -0.075, 0)
+shader_parameter/sphereRadius1 = 0.065
+shader_parameter/sphereCenter2 = Vector3(0, 0.22, 0)
+shader_parameter/sphereRadius2 = 0.01
+shader_parameter/mergeRadius = 0.285
+shader_parameter/depthMultiplier = 2.285
 shader_parameter/noiseTex = SubResource("NoiseTexture3D_weoqs")
 
 [sub_resource type="SphereMesh" id="SphereMesh_vasl7"]
 material = SubResource("ShaderMaterial_efa4c")
+radial_segments = 4
+rings = 3
 
-[sub_resource type="Environment" id="Environment_63m5f"]
-glow_enabled = true
-
-[node name="Node3D" type="Node3D"]
+[node name="SDF Flame" type="Node3D"]
+script = ExtResource("1_vdpew")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.365, 0, 0, 0, 1.365, 0, 0, 0, 1.365, 0.0263103, 0, 0.00196362)
 mesh = SubResource("SphereMesh_vasl7")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.592713, -0.000441416, 0.805414, -0.796641, 0.146874, 0.586337, -0.118553, -0.989155, 0.0867022, 0, 0, -3.66126)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.947277, 0.320415, 0, -0.320415, 0.947277, 0, 0.70637, 1.45129)
-environment = SubResource("Environment_63m5f")
