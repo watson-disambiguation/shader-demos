@@ -15,6 +15,7 @@ uniform vec3 sphereCenter1;
 uniform float sphereRadius1;
 uniform vec3 sphereCenter2;
 uniform float sphereRadius2;
+uniform float burnSpeed = 1.;
 uniform float mergeRadius;
 uniform float depthMultiplier;
 
@@ -27,7 +28,7 @@ float sphereSDF(vec3 pos, vec3 center, float radius) {
 float sdf(vec3 pos) {
 	float sdf1 = sphereSDF(pos,sphereCenter1,sphereRadius1);
 	float sdf2 = sphereSDF(pos,sphereCenter2,sphereRadius2);
-	float noise = texture(noiseTex,fract(pos + vec3(0.,-TIME,0.))).x * noiseScale;
+	float noise = texture(noiseTex,fract(pos + burnSpeed * vec3(0.,-TIME,0.))).x * noiseScale;
 	return round_merge(sdf1,sdf2,mergeRadius) - noise;
 }
 
@@ -73,8 +74,10 @@ void fragment() {
 	if(distThrough < h) {
 		discard;
 	}
+	
 	vec3 finalColor =  mix(outerColor,innerColor,distThrough);
 	ALBEDO = finalColor;
+	EMISSION = finalColor * 3.;
 }
 
 

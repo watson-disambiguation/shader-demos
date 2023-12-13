@@ -6,27 +6,28 @@
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_p3ti0"]
 noise_type = 3
 seed = 170
-frequency = 0.0355
+frequency = 0.0925
 
 [sub_resource type="NoiseTexture3D" id="NoiseTexture3D_weoqs"]
 resource_local_to_scene = true
 seamless = true
-seamless_blend_skirt = 0.701
+seamless_blend_skirt = 0.596
 noise = SubResource("FastNoiseLite_p3ti0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efa4c"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_8mymq")
-shader_parameter/innerColor = Color(1, 0.6, 0, 1)
-shader_parameter/outerColor = Color(1, 0.0823529, 0, 1)
+shader_parameter/innerColor = Color(1, 0.529412, 0.694118, 1)
+shader_parameter/outerColor = Color(0.858824, 0, 0.0588235, 1)
 shader_parameter/noiseScale = 0.305
 shader_parameter/raycastLength = 1.0
 shader_parameter/raycastSteps = 50
 shader_parameter/sphereCenter1 = Vector3(0, -0.075, 0)
-shader_parameter/sphereRadius1 = 0.065
+shader_parameter/sphereRadius1 = 0.08
 shader_parameter/sphereCenter2 = Vector3(0, 0.22, 0)
-shader_parameter/sphereRadius2 = 0.01
+shader_parameter/sphereRadius2 = -0.01
+shader_parameter/burnSpeed = 1.305
 shader_parameter/mergeRadius = 0.285
 shader_parameter/depthMultiplier = 2.285
 shader_parameter/noiseTex = SubResource("NoiseTexture3D_weoqs")
@@ -40,5 +41,5 @@ rings = 3
 script = ExtResource("1_vdpew")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.365, 0, 0, 0, 1.365, 0, 0, 0, 1.365, 0.0263103, 0, 0.00196362)
+transform = Transform3D(1.36495, -0.0113638, 0, 0.0113638, 1.36495, 0, 0, 0, 1.365, 0.043316, 0.238105, -0.155549)
 mesh = SubResource("SphereMesh_vasl7")

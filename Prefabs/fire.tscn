@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d28eblfgqm1d2"]
 
-[ext_resource type="Shader" path="res://Prefabs/fire.gdshader" id="1_6ne1o"]
+[ext_resource type="Shader" path="res://Shaders/fire.gdshader" id="1_6ne1o"]
 [ext_resource type="Texture2D" uid="uid://drcyqcbf8p1fs" path="res://Textures/blank.bmp" id="1_l0ep1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wyjf0"]
