@@ -3,10 +3,13 @@ shader_type spatial;
 
 render_mode specular_disabled;
 render_mode unshaded;
-render_mode cull_front;
+render_mode cull_back;
 
+uniform float brightness;
 uniform vec3 innerColor : source_color;
 uniform vec3 outerColor : source_color;
+uniform sampler2D depth_texture : hint_depth_texture;
+uniform sampler2D screen_texture : hint_screen_texture;
 uniform sampler3D noiseTex;
 uniform float noiseScale;
 uniform float raycastLength;
@@ -47,18 +50,19 @@ varying vec3 viewDir;
 vec4 raycast() {
 	float raycastStepSize = raycastLength / float(raycastSteps);
 	vec3 raycastStep = viewDir * raycastStepSize;
-	vec3 startPos = pos - raycastStep * float(raycastSteps);
+	vec3 startPos = pos;
 	vec3 currPos = startPos;
 	float distThrough = 0.;
-	vec3 normal = vec3(0);
+	vec3 finalPos = vec3(0);
 	for(int i = 0; i < raycastSteps; i++) {
 		float sdfVal = sdf(currPos);
-		
 		distThrough += raycastStepSize * step(0,-sdfVal);
-		
+		if(distThrough < h) {
+			finalPos = currPos;
+		}
 		currPos += raycastStep;
 	}
-	return vec4(normal,distThrough);
+	return vec4(finalPos,distThrough);
 }
 
 void vertex() {
@@ -69,15 +73,21 @@ void vertex() {
 
 void fragment() {
 	vec4 raycastResult = raycast();
-	vec3 normal = raycastResult.xyz;
+	vec3 surfacePos = raycastResult.xyz;
+	vec4 clipPos =  PROJECTION_MATRIX * VIEW_MATRIX * MODEL_MATRIX * vec4(surfacePos,1);
+	float depth = (clipPos.z / clipPos.w);
+	DEPTH = depth;
+	
 	float distThrough = raycastResult.w * depthMultiplier;
+	
 	if(distThrough < h) {
 		discard;
 	}
 	
 	vec3 finalColor =  mix(outerColor,innerColor,distThrough);
+	
 	ALBEDO = finalColor;
-	EMISSION = finalColor * 3.;
+	EMISSION = finalColor * brightness;
 }
 
 

@@ -1,26 +1,76 @@
-[gd_scene load_steps=3 format=3 uid="uid://u1yfqrf2l21t"]
+[gd_scene load_steps=10 format=3 uid="uid://pbgmfho7o4om"]
 
 [ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Prefabs/SDFFlame.tscn" id="1_mcist"]
+[ext_resource type="Script" path="res://CameraController.gd" id="2_0vyn4"]
 
-[sub_resource type="Environment" id="Environment_v1yux"]
+[sub_resource type="Environment" id="Environment_hi7dp"]
 background_mode = 1
-background_color = Color(0.00784314, 0.447059, 0.670588, 1)
-background_energy_multiplier = 0.47
+background_color = Color(0.027451, 0.0588235, 0.14902, 1)
 glow_enabled = true
-glow_intensity = 3.07
+glow_intensity = 2.1
+glow_strength = 0.75
 glow_bloom = 1.0
+glow_blend_mode = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_07qql"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktm3a"]
+albedo_color = Color(0.34902, 0.34902, 0.34902, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ydhcd"]
+material = SubResource("StandardMaterial3D_ktm3a")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3d8wd"]
+albedo_color = Color(0.396078, 0.396078, 0.396078, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vqssc"]
+material = SubResource("StandardMaterial3D_3d8wd")
+size = Vector2(30, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5msmd"]
+size = Vector3(1, 2.82, 1)
 
 [node name="FlameDemo" type="Node3D"]
 
-[node name="SDF Flame" parent="." instance=ExtResource("1_mcist")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173736, 0, 0)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hi7dp")
+camera_attributes = SubResource("CameraAttributesPractical_07qql")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
-environment = SubResource("Environment_v1yux")
+[node name="Torch" type="Node3D" parent="WorldEnvironment"]
 
-[node name="SDF Flame2" parent="." instance=ExtResource("1_mcist")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42453, 0, -0.741873)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
+mesh = SubResource("CylinderMesh_ydhcd")
+skeleton = NodePath("../../..")
 
-[node name="SDF Flame3" parent="." instance=ExtResource("1_mcist")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.831151, 0.133189, 0.54559)
+[node name="SDF Flame" parent="WorldEnvironment/Torch/MeshInstance3D" instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+color_speed = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112379, -0.800212, 0.360464)
+mesh = SubResource("PlaneMesh_vqssc")
+skeleton = NodePath("../..")
+
+[node name="CameraController" type="Node3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0413629, 1.29097, 5.32625)
+script = ExtResource("2_0vyn4")
+rotation_speed = 60.0
+zoom_speed = 10.0
+min_dist = 0.645
+max_dist = 10.0
+top_angle = 90.0
+
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment/CameraController"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.20481, 0, -4.329)
+mesh = SubResource("BoxMesh_5msmd")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.38169, 0, -2.53196)
+mesh = SubResource("BoxMesh_5msmd")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.380728, 0, 3.9608)
+mesh = SubResource("BoxMesh_5msmd")
