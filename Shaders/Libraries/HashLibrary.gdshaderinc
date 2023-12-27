@@ -1,3 +1,5 @@
+//https://www.shadertoy.com/view/ttc3zr
+
 uvec2 murmurHash21(uint src) {
     const uint M = 0x5bd1e995u;
     uvec2 h = uvec2(1190494759u, 2147483647u);
@@ -16,7 +18,6 @@ vec2 hash21(float src) {
 		) - 1.0;
 }
 
-//https://www.shadertoy.com/view/ttc3zr
 uint murmurHash11(uint src) {
     const uint M = 0x5bd1e995u;
     uint h = 1190494759u;
@@ -62,4 +63,42 @@ uint murmurHash12(uvec2 src) {
 float hash12(vec2 src) {
     uint h = murmurHash12(floatBitsToUint(src));
     return uintBitsToFloat(h & 0x007fffffu | 0x3f800000u) - 1.0;
+}
+
+uvec3 murmurHash31(uint src) {
+    const uint M = 0x5bd1e995u;
+    uvec3 h = uvec3(1190494759u, 2147483647u, 3559788179u);
+    src *= M; src ^= src>>24u; src *= M;
+    h *= M; h ^= src;
+    h ^= h>>13u; h *= M; h ^= h>>15u;
+    return h;
+}
+
+// 3 outputs, 1 input
+vec3 hash31(float src) {
+    uvec3 h = murmurHash31(floatBitsToUint(src));
+    return vec3(
+		uintBitsToFloat(h.x & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.y & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.z & 0x007fffffu | 0x3f800000u)
+		) - 1.0;
+}
+
+uvec3 murmurHash33(uvec3 src) {
+    const uint M = 0x5bd1e995u;
+    uvec3 h = uvec3(1190494759u, 2147483647u, 3559788179u);
+    src *= M; src ^= src>>24u; src *= M;
+    h *= M; h ^= src.x; h *= M; h ^= src.y; h *= M; h ^= src.z;
+    h ^= h>>13u; h *= M; h ^= h>>15u;
+    return h;
+}
+
+// 3 outputs, 3 inputs
+vec3 hash33(vec3 src) {
+    uvec3 h = murmurHash33(floatBitsToUint(src));
+    return vec3(
+		uintBitsToFloat(h.x & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.y & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.z & 0x007fffffu | 0x3f800000u)
+		) - 1.0;
 }
