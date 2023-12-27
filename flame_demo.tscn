@@ -74,3 +74,29 @@ mesh = SubResource("BoxMesh_5msmd")
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.380728, 0, 3.9608)
 mesh = SubResource("BoxMesh_5msmd")
+
+[node name="Torch2" type="Node3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.47787, 0, 2.19799)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/Torch2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
+mesh = SubResource("CylinderMesh_ydhcd")
+skeleton = NodePath("../..")
+
+[node name="SDF Flame" parent="WorldEnvironment/Torch2/MeshInstance3D" instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+default_color = Vector3(0.775, 0.845, 0.655)
+color_speed = 0.1
+
+[node name="Torch3" type="Node3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831824, 0.568363, -5.10418)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/Torch3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
+mesh = SubResource("CylinderMesh_ydhcd")
+skeleton = NodePath("../../Torch2")
+
+[node name="SDF Flame" parent="WorldEnvironment/Torch3/MeshInstance3D" instance=ExtResource("1_mcist")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+default_color = Vector3(0.21, 0.845, 0.655)
+color_speed = 0.1

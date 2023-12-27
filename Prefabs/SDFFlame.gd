@@ -10,14 +10,8 @@ var mat: ShaderMaterial
 func _ready():
 	var old_mat: ShaderMaterial = mesh.get_active_material(0)
 	mat = old_mat.duplicate()
-	var old_noise_tex = mat.get_shader_parameter("noiseTex");
-	var old_noise = old_noise_tex.noise
+	mat.set_shader_parameter("seed",randf_range(0,1))
 	mesh.set_surface_override_material(0,mat)
-	var noise_tex = old_noise_tex.duplicate()
-	var noise = old_noise.duplicate()
-	noise.seed = randi()
-	noise_tex.noise = noise
-	mat.set_shader_parameter("noiseTex",noise_tex)
 	curr_color = default_color
 	set_color()
 

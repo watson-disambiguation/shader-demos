@@ -1,6 +1,6 @@
 shader_type spatial;
 #include "Libraries/SDFLibrary.gdshaderinc"
-
+#include "Libraries/NoiseLibrary.gdshaderinc"
 render_mode specular_disabled;
 render_mode unshaded;
 render_mode cull_back;
@@ -8,9 +8,9 @@ render_mode cull_back;
 uniform float brightness;
 uniform vec3 innerColor : source_color;
 uniform vec3 outerColor : source_color;
-uniform sampler2D depth_texture : hint_depth_texture;
-uniform sampler2D screen_texture : hint_screen_texture;
-uniform sampler3D noiseTex;
+uniform float noiseGrid;
+uniform float seed;
+uniform int octaves : hint_range(0, 10, 1);
 uniform float noiseScale;
 uniform float raycastLength;
 uniform int raycastSteps;
@@ -31,7 +31,7 @@ float sphereSDF(vec3 pos, vec3 center, float radius) {
 float sdf(vec3 pos) {
 	float sdf1 = sphereSDF(pos,sphereCenter1,sphereRadius1);
 	float sdf2 = sphereSDF(pos,sphereCenter2,sphereRadius2);
-	float noise = texture(noiseTex,fract(pos + burnSpeed * vec3(0.,-TIME,0.))).x * noiseScale;
+	float noise = perlinNoise3DOctaves(pos + burnSpeed * vec3(0.,-TIME,0.),noiseGrid,seed,octaves) * noiseScale;
 	return round_merge(sdf1,sdf2,mergeRadius) - noise;
 }
 

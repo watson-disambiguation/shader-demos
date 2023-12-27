@@ -1,16 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkcmhpnkrpc5t"]
+[gd_scene load_steps=5 format=3 uid="uid://bkcmhpnkrpc5t"]
 
 [ext_resource type="Shader" path="res://Shaders/3Dsdf.gdshader" id="1_8mymq"]
 [ext_resource type="Script" path="res://Prefabs/SDFFlame.gd" id="1_vdpew"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2j15f"]
-noise_type = 3
-frequency = 0.135
-
-[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_pyecy"]
-seamless = true
-seamless_blend_skirt = 0.77
-noise = SubResource("FastNoiseLite_2j15f")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efa4c"]
 resource_local_to_scene = true
@@ -19,17 +10,19 @@ shader = ExtResource("1_8mymq")
 shader_parameter/brightness = 20.0
 shader_parameter/innerColor = Color(1, 0.584314, 0.207843, 1)
 shader_parameter/outerColor = Color(0.858824, 0, 0.0588235, 1)
-shader_parameter/noiseScale = 0.275
+shader_parameter/noiseGrid = 0.24
+shader_parameter/seed = null
+shader_parameter/octaves = 4
+shader_parameter/noiseScale = 0.065
 shader_parameter/raycastLength = 1.0
-shader_parameter/raycastSteps = 205
+shader_parameter/raycastSteps = 25
 shader_parameter/sphereCenter1 = Vector3(0, -0.105, 0)
-shader_parameter/sphereRadius1 = 0.08
+shader_parameter/sphereRadius1 = 0.145
 shader_parameter/sphereCenter2 = Vector3(0, 0.19, 0)
-shader_parameter/sphereRadius2 = 0.005
+shader_parameter/sphereRadius2 = 0.03
 shader_parameter/burnSpeed = 1.305
 shader_parameter/mergeRadius = 0.285
 shader_parameter/depthMultiplier = 2.285
-shader_parameter/noiseTex = SubResource("NoiseTexture3D_pyecy")
 
 [sub_resource type="SphereMesh" id="SphereMesh_vasl7"]
 material = SubResource("ShaderMaterial_efa4c")

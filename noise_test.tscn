@@ -5,8 +5,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_21qip"]
 render_priority = 0
 shader = ExtResource("1_gxja5")
-shader_parameter/seed = 0.27
-shader_parameter/gridSize = 0.2
+shader_parameter/depth = 2.505
+shader_parameter/edge = 0.91
+shader_parameter/seed = 0.53
+shader_parameter/gridSize = 0.105
 shader_parameter/octaves = 8
 
 [sub_resource type="QuadMesh" id="QuadMesh_n3kmb"]
