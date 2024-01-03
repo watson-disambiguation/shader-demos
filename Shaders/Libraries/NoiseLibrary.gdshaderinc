@@ -44,14 +44,19 @@ float perlinNoise3D(vec3 pos, float cellSize, float seed) {
 	float[8] dotProducts;
 	vec3 floors = floor(scaledPos);
 	vec3 ceils = ceil(scaledPos);
+	// calculate corner positions
+	cornerPositions[0] = floors;
+	cornerPositions[1] = vec3(ceils.x,floors.yz);
+	cornerPositions[2] = vec3(floors.x,ceils.y,floors.z);
+	cornerPositions[3] = vec3(ceils.xy,floors.z);
+	cornerPositions[4] = vec3(floors.xy,ceils.z);
+	cornerPositions[5] = vec3(ceils.x,floors.y,ceils.z);
+	cornerPositions[6] = vec3(floors.x,ceils.yz);
+	cornerPositions[7] = ceils;
 	for(int i = 0; i < 8; i++) {
-		// calculated corner positions
-		float x = mix(floors.x,ceils.x,float(i % 2));
-		float y = mix(floors.y,ceils.y,clamp(float((i % 4)-1),0.,1.));
-		float z = mix(floors.z,ceils.z,clamp(float(i-3),0.,1.));
-		cornerPositions[i] = vec3(x,y,z) * cellSize;
+		cornerPositions[i] *= cellSize;
 		// get normalized vector from angles
-		vec2 angles = hash23(cornerPositions[i] +hashedSeed);
+		vec2 angles = hash23(cornerPositions[i] + hashedSeed);
 		angles.x *= TAU;
 		angles.y = angles.y * PI - (PI * 0.5);
 		vec2 planeVector = vec2(cos(angles.x),sin(angles.x));
@@ -82,7 +87,7 @@ float perlinNoise3DOctaves(vec3 pos, float cellSize, float seed, int octaves) {
 	float octaveSize = 1.; 
 	for(int i = 1; i <= octaves; i++) {
 		noiseValue += perlinNoise3D(pos,currCellSize*octaveSize,currSeed)*octaveSize;
-		octaveSize /= 2.;
+		octaveSize *= 0.5;
 		currSeed = hash11(currSeed);
 	}
 	return noiseValue;

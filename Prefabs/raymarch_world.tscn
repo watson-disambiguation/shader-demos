@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj7lexup8asse"]
+
+[ext_resource type="PackedScene" uid="uid://dc486be67gql4" path="res://Prefabs/raymarch_camera.tscn" id="1_4h548"]
+[ext_resource type="Script" path="res://Prefabs/CameraMover.gd" id="1_lgrcy"]
+
+[node name="Raymarch World" type="Node3D"]
+
+[node name="CameraController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.407)
+script = ExtResource("1_lgrcy")
+look_sensitivity = 0.01
+
+[node name="RaymarchCamera" parent="CameraController" instance=ExtResource("1_4h548")]
+transform = Transform3D(-0.999187, -0.00268883, 0.0402162, 0.00272674, -0.999996, 0.000887979, 0.0402136, 0.000996917, 0.999191, 0, 0, 0)

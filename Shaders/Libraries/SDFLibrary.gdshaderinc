@@ -2,6 +2,10 @@ float circle(vec2 uv, vec2 center, float radius) {
 	return length(uv-center) - radius;
 }
 
+float sphere(vec3 pos, float radius) {
+	return length(pos) - radius;
+}
+
 vec2 transform(vec2 samplePosition, vec2 offset, float angleDegrees) {
 	vec2 position = samplePosition - offset;
 	float angleRadians = angleDegrees * PI / 180.;
