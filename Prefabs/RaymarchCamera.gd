@@ -13,13 +13,15 @@ func _ready():
 	quad.mesh.material = raymarch_shader
 
 func _process(delta):
-	
-	var velocity = Vector3(
-		Input.get_axis("ui_right","ui_left"),
-		Input.get_axis("ui_in","ui_out"),
-		Input.get_axis("ui_up","ui_down"));
+	var theta = rotation.y
+	var vert = Vector3.UP * Input.get_axis("ui_in","ui_out")
+	var forward = Vector3(-sin(theta),0,-cos(theta)) * Input.get_axis("ui_down","ui_up")
+	var side = Vector3(-cos(theta),0,sin(theta)) * Input.get_axis("ui_left","ui_right")
+	var velocity = vert + forward + side
 	velocity = velocity.normalized() * delta * speed
 	position += velocity
+	print(position)
+	print(Engine.get_frames_per_second())
 
 func _input(event):
 	if event is InputEventMouseMotion:

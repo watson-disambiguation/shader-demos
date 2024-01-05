@@ -1,6 +1,6 @@
 #include "HashLibrary.gdshaderinc"
 
-
+//TODO: Optimize noise, find out bottleneck in noise
 float perlinNoise2D(vec2 uv, float cellSize, float seed) {
 	vec2 hashedSeed = hash21(seed);
 	vec2 scaledUV = uv / cellSize;

@@ -3,42 +3,69 @@ shader_type spatial;
 render_mode unshaded;
 
 #include "Libraries/SDFLibrary.gdshaderinc"
+#include "Libraries/NoiseLibrary.gdshaderinc"
 
 uniform float nearFogBlend;
 uniform float farFogBlend;
-uniform vec3 skyColour : source_color;
+uniform float pillarSize;
+uniform float pillarRounding = 0.01;
+uniform float noiseSize = 0.01;
+uniform float mergeRadius = 0.01;
+uniform float hallSize;
+uniform vec3 brightColour : source_color;
+uniform vec3 darkColour : source_color;
 uniform vec3 objColour : source_color;
 
 const int maxSteps = 128;
-const float EPS = 0.000001;
+const float EPS = 0.0001;
+
+
 
 float sdf(vec3 pos) {
-	pos = pos - round(pos);
-	return sphere(pos, 0.1);
+	float hall = -rectangle(pos.xy,vec2(hallSize));
+	vec3 pillarPos = pos;
+	pillarPos.z = pillarPos.z - round(pillarPos.z);
+	pillarPos.x = abs(pillarPos.x);
+	float pillars = box(pillarPos- vec3(hallSize,0,0), vec3(pillarSize,hallSize,pillarSize)) - pillarRounding;
+	
+	float result = round_merge(hall,pillars,mergeRadius);
+	//result += perlinNoise3DOctaves(pos,0.25,0,4) * noiseSize;
+	return result;
+}
+
+vec3 normal(vec3 pos) {
+	float base = sdf(pos);
+	vec2 h = vec2(EPS,0);
+	return normalize(
+		vec3(
+			sdf(pos + h.xyy) - base,
+			sdf(pos + h.yxy) - base,
+			sdf(pos + h.yyx) - base
+		)
+	);
 }
 
 void fragment() {
 	vec3 ro = CAMERA_POSITION_WORLD;
 	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
-	vec3 curPos = ro;
+	float dist = 0.;
 	float sample = 1.;
-	vec3 finalPos = ro;
-	bool hit = false;
-	for(int i = 0; i < 128; i++) {
-		sample = sdf(curPos);
+
+	for(int i = 0; i < maxSteps; i++) {
+		sample = sdf(ro + rd * dist);
 		if(sample < EPS) {
-			finalPos = curPos;
-			hit = true;
 			break;
 		}
-		vec3 rayStep = rd * sample;
-		curPos += rayStep;
+		dist += sample;
 	}
+	vec3 pos = ro + rd * dist;
+	vec3 normal = normal(pos);
+	float fog = smoothstep(nearFogBlend,farFogBlend,dist);
+	vec3 fogColour = mix(darkColour,brightColour,(0.5 * rd.z + 0.5));
+	vec3 lightCol = mix(darkColour,brightColour,(0.5 * normal.z + 0.5));
+	vec3 col = mix(objColour,lightCol,0.3);
 	
-	vec3 col = hit ? objColour : skyColour;
-	float dist = length(ro - finalPos);
-	col = mix(col,skyColour,smoothstep(nearFogBlend,farFogBlend,dist));
-	ALBEDO = col;
+	ALBEDO = (dist < farFogBlend) ? mix(col,fogColour,fog) : fogColour;
 	
 	
 }

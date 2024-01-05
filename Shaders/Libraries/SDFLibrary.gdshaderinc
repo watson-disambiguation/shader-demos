@@ -14,12 +14,17 @@ vec2 transform(vec2 samplePosition, vec2 offset, float angleDegrees) {
 	return vec2(c * position.x + s * position.y, c * position.y - s * position.x);
 }
 
-float rectangle(vec2 uv, vec2 center, vec2 size, float rotationDegrees) {
-	vec2 position = transform(uv,center,rotationDegrees);
-	vec2 componentDistance = abs(position) - size;
+float rectangle(vec2 pos, vec2 size) {
+	vec2 componentDistance = abs(pos) - size;
 	float outsideDistance = length(max(componentDistance,vec2(0)));
 	float insideDistance = min(max(componentDistance.x,componentDistance.y), 0);
 	return outsideDistance + insideDistance;
+}
+
+float box( vec3 pos, vec3 size )
+{
+  vec3 q = abs(pos) - size;
+  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
 float merge(float shape1, float shape2) {

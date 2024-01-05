@@ -11,4 +11,3 @@ script = ExtResource("1_lgrcy")
 look_sensitivity = 0.01
 
 [node name="RaymarchCamera" parent="CameraController" instance=ExtResource("1_4h548")]
-transform = Transform3D(-0.999187, -0.00268883, 0.0402162, 0.00272674, -0.999996, 0.000887979, 0.0402136, 0.000996917, 0.999191, 0, 0, 0)

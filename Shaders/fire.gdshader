@@ -12,7 +12,7 @@ uniform float circleRadius;
 uniform float cornerRadius;
 
 vec3 sdf(vec2 uv) {
-	float rectangle = rectangle(uv,centerRect,sizeRect,TIME* 40.);
+	float rectangle = rectangle(transform(uv,centerRect,TIME* 40.),sizeRect);
 	float circle = circle(uv,centerCircle,circleRadius);
 	return vec3(round_intersect(circle,rectangle,cornerRadius),circle,rectangle);
 }

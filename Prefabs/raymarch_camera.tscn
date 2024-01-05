@@ -7,16 +7,28 @@
 render_priority = 0
 shader = ExtResource("2_tkypo")
 shader_parameter/nearFogBlend = 0.0
-shader_parameter/farFogBlend = 10.0
-shader_parameter/skyColour = Color(0.258824, 0.376471, 0.435294, 1)
-shader_parameter/objColour = null
+shader_parameter/farFogBlend = 30.0
+shader_parameter/pillarSize = 0.1
+shader_parameter/pillarRounding = 0.015
+shader_parameter/noiseSize = 0.01
+shader_parameter/mergeRadius = 0.001
+shader_parameter/hallSize = 0.5
+shader_parameter/brightColour = Color(1, 0.85098, 0.666667, 1)
+shader_parameter/darkColour = Color(0.188235, 0.14902, 0.301961, 1)
+shader_parameter/objColour = Color(0.447059, 0.403922, 0.313726, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3kkjx"]
 render_priority = 0
 shader = ExtResource("2_tkypo")
 shader_parameter/nearFogBlend = null
 shader_parameter/farFogBlend = null
-shader_parameter/skyColour = null
+shader_parameter/pillarSize = null
+shader_parameter/pillarRounding = 0.01
+shader_parameter/noiseSize = 0.01
+shader_parameter/mergeRadius = 0.01
+shader_parameter/hallSize = null
+shader_parameter/brightColour = null
+shader_parameter/darkColour = null
 shader_parameter/objColour = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_c4t2u"]
@@ -24,7 +36,7 @@ material = SubResource("ShaderMaterial_3kkjx")
 size = Vector2(4.06, 2.485)
 
 [node name="RaymarchCamera" type="Camera3D"]
-transform = Transform3D(-0.999187, -0.00268883, 0.0402162, 0.00272674, -0.999996, 0.000887979, 0.0402136, 0.000996917, 0.999191, -0.529687, 0, 13.4095)
+transform = Transform3D(-0.999187, -0.00268883, 0.0402162, 0.00272674, -0.999996, 0.000887979, 0.0402136, 0.000996917, 0.999191, 0, 0, 0)
 script = ExtResource("1_gw5a0")
 raymarch_shader = SubResource("ShaderMaterial_x0hvp")
 rotation_speed = 0.01
