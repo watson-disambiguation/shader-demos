@@ -14,6 +14,9 @@ uniform float pillarRounding = 0.01;
 uniform float tileSize = 0.5;
 uniform float tileRounding;
 uniform float noiseSize = 0.01;
+uniform float aoDist;
+uniform int aoSamples;
+uniform float aoStrength = 2.;
 uniform float mergeRadius = 0.01;
 uniform float hallSize;
 uniform float lightBlend;
@@ -65,6 +68,19 @@ vec3 normal(vec3 pos) {
 	);
 }
 
+float occlusion(vec3 pos, vec3 normal) {
+	float invAO = 0.;
+	float stepSize = aoDist / float(aoSamples);
+	float decay = 1.;
+	for(int i = 1; i <= aoSamples; i++) {
+		decay /= 2.;
+		float distOut = float(i) * stepSize;
+		float sampleDist = sdf(pos + normal * distOut);
+		invAO += decay * (distOut - sampleDist);
+	}
+	return 1. - aoStrength * invAO;
+}
+
 void fragment() {
 	vec3 ro = CAMERA_POSITION_WORLD;
 	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
@@ -83,10 +99,12 @@ void fragment() {
 	vec3 normal = normal(pos);
 	float fog = smoothstep(nearFogBlend,farFogBlend,dist);
 	vec3 fogColour = mix(darkColour,brightColour,(0.5 * rd.z + 0.5));
-	vec3 lightCol = mix(darkColour,brightColour,(0.5 * normal.z + 0.5) * (1. - float(steps)/128.));
-	vec3 col = mix(objColour,lightCol,lightBlend);
-	
-	ALBEDO = (dist < farFogBlend) ? mix(col,fogColour,fog) : fogColour;
+	float occ = occlusion(pos,normal);
+	float light = clamp(0,1,(0.5 * normal.z + 0.5) * occ);
+	vec3 colBright = mix(objColour,brightColour,smoothstep(0.5,1.,light)); 
+	vec3 colDark = mix(darkColour,objColour,smoothstep(0.,0.5,light)); 
+	vec3 col = (light > 0.5) ? colBright : colDark;
+	ALBEDO = mix(col,fogColour,fog);
 	
 	
 }
