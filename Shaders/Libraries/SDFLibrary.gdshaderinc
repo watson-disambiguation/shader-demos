@@ -40,12 +40,8 @@ float subtract(float shape1, float shape2) {
 }
 
 float round_merge(float shape1, float shape2, float radius){
-    vec2 intersectionSpace = vec2(shape1 - radius, shape2 - radius);
-    intersectionSpace = min(intersectionSpace, 0);
-	float insideDistance = -length(intersectionSpace);
-	float simpleUnion = merge(shape1,shape2);
-	float outsideDistance = max(simpleUnion,radius);
-    return  insideDistance + outsideDistance;
+    float h = clamp( 0.5 + 0.5*(shape2-shape1)/radius, 0.0, 1.0 );
+    return mix( shape2, shape1, h ) - radius*h*(1.0-h);
 }
 
 float round_intersect(float shape1, float shape2, float radius){

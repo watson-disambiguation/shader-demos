@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://pbgmfho7o4om"]
 
-[ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Prefabs/SDFFlame.tscn" id="1_mcist"]
+[ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Scenes/SDFFlame.tscn" id="1_mcist"]
 [ext_resource type="Script" path="res://CameraController.gd" id="2_0vyn4"]
 
 [sub_resource type="Environment" id="Environment_hi7dp"]

@@ -10,6 +10,7 @@ uniform float farFogBlend;
 uniform float radius;
 uniform float aoDist;
 uniform int aoSamples;
+
 uniform float aoStrength;
 uniform vec3 brightColour : source_color;
 uniform vec3 darkColour : source_color;
@@ -67,12 +68,13 @@ float raymarch(vec3 ro, vec3 rd) {
 
 void fragment() {
 	vec3 ro = CAMERA_POSITION_WORLD;
-	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,1)).xyz );
+	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
 	float dist = raymarch(ro,rd);
 	vec3 pos = ro + rd * dist;
 	vec3 normal = normal(pos);
 	float fog = smoothstep(nearFogBlend,farFogBlend,dist);
 	vec3 fogColour = mix(darkColour,brightColour,(0.5 * rd.z + 0.5));
+	
 	
 	ALBEDO = (dist < farFogBlend) ? normal : fogColour;
 	
