@@ -17,7 +17,7 @@ uniform vec3 darkColour : source_color;
 uniform vec3 objColour : source_color;
 
 const int maxSteps = 128;
-const float EPS = 0.0001;
+const float EPS = 0.001;
 
 
 
