@@ -40,28 +40,28 @@ float repeatedRain( vec3 p, float s )
     {
         vec3 rid = id + vec3(float(i),float(j),float(k)) * o;
         vec3 r = p - s*rid;
-		vec3 offsetVector = (2.*hash33(rid)-1.) * (0.5 * rainSpacing);
+		vec3 offsetVector = (2.*hash33(rid)-1.) * (0.5 * rainSpacing - radius);
         d = min( d, sphere(r + offsetVector, radius) );
     }
     return d;
 }
 
-float sdf(vec3 pos, vec3 camPos, float time) {
+float sdf(vec3 pos, vec3 camPos) {
 	float surface = surfacePlane(pos);
-	pos.y -= time * rainSpeed;
+	pos.y -= TIME * rainSpeed;
 	float rain = repeatedRain(pos,rainSpacing);
 	rain = round_merge(rain,surface,mergeRadius);
 	return rain;
 }
 
-vec3 normal(vec3 pos, vec3 camPos, float time) {
-	float base = sdf(pos, camPos, time);
+vec3 normal(vec3 pos, vec3 camPos) {
+	float base = sdf(pos, camPos);
 	vec2 h = vec2(EPS,0);
 	return normalize(
 		vec3(
-			sdf(pos + h.xyy, camPos, time) - base,
-			sdf(pos + h.yxy, camPos, time) - base,
-			sdf(pos + h.yyx, camPos, time) - base
+			sdf(pos + h.xyy, camPos) - base,
+			sdf(pos + h.yxy, camPos) - base,
+			sdf(pos + h.yyx, camPos) - base
 		)
 	);
 }
@@ -79,11 +79,11 @@ float occlusion(vec3 pos, vec3 normal) {
 	return 1. - aoStrength * invAO;
 }
 */
-float raymarch(vec3 ro, vec3 rd, float time) {
+float raymarch(vec3 ro, vec3 rd) {
 	float dist = 0.;
 	float sample = 1.;
 	for(int i = 0; i < maxSteps; i++) {
-		sample = sdf(ro + rd * dist, ro,time);
+		sample = sdf(ro + rd * dist, ro);
 		if(sample < EPS || dist > farFogBlend) {
 			return dist;
 		}
@@ -94,12 +94,11 @@ float raymarch(vec3 ro, vec3 rd, float time) {
 
 void fragment() {
 	vec3 col = objColour;
-	float time = TIME;
 	vec3 ro = CAMERA_POSITION_WORLD;
 	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
-	float dist = raymarch(ro,rd,time);
+	float dist = raymarch(ro,rd);
 	vec3 pos = ro + rd * dist;
-	vec3 normal = normal(pos,ro,time);
+	vec3 normal = normal(pos,ro);
 	float fog = smoothstep(nearFogBlend,farFogBlend,dist);
 	//float fresnel = 1.-pow(clamp(0,1,dot(-rd,normal)),0.1);
 	//vec3 col = mix(objColour,vec3(1),fresnel);
