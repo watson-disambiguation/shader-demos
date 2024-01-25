@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://pbgmfho7o4om"]
 
-[ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Scenes/SDFFlame.tscn" id="1_mcist"]
-[ext_resource type="Script" path="res://CameraController.gd" id="2_0vyn4"]
+[ext_resource type="PackedScene" uid="uid://bkcmhpnkrpc5t" path="res://Scenes/SDFFlame.tscn" id="1_yldfc"]
+[ext_resource type="Script" path="res://Prefabs/CameraController.gd" id="2_gxkri"]
 
 [sub_resource type="Environment" id="Environment_hi7dp"]
 background_mode = 1
@@ -43,7 +43,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
 mesh = SubResource("CylinderMesh_ydhcd")
 skeleton = NodePath("../../..")
 
-[node name="SDF Flame" parent="WorldEnvironment/Torch/MeshInstance3D" instance=ExtResource("1_mcist")]
+[node name="SDF Flame" parent="WorldEnvironment/Torch/MeshInstance3D" instance=ExtResource("1_yldfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 color_speed = 0.1
 
@@ -54,7 +54,7 @@ skeleton = NodePath("../..")
 
 [node name="CameraController" type="Node3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0413629, 1.29097, 5.32625)
-script = ExtResource("2_0vyn4")
+script = ExtResource("2_gxkri")
 rotation_speed = 60.0
 zoom_speed = 10.0
 min_dist = 0.645
@@ -83,7 +83,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
 mesh = SubResource("CylinderMesh_ydhcd")
 skeleton = NodePath("../..")
 
-[node name="SDF Flame" parent="WorldEnvironment/Torch2/MeshInstance3D" instance=ExtResource("1_mcist")]
+[node name="SDF Flame" parent="WorldEnvironment/Torch2/MeshInstance3D" instance=ExtResource("1_yldfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 default_color = Vector3(0.775, 0.845, 0.655)
 color_speed = 0.1
@@ -96,7 +96,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.791202, -0.0862501)
 mesh = SubResource("CylinderMesh_ydhcd")
 skeleton = NodePath("../../Torch2")
 
-[node name="SDF Flame" parent="WorldEnvironment/Torch3/MeshInstance3D" instance=ExtResource("1_mcist")]
+[node name="SDF Flame" parent="WorldEnvironment/Torch3/MeshInstance3D" instance=ExtResource("1_yldfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 default_color = Vector3(0.21, 0.845, 0.655)
 color_speed = 0.1
