@@ -4,14 +4,37 @@
 #define UI2 uvec2(UI0, UI1)
 #define UI3 uvec3(UI0, UI1, 2798796415U)
 #define UIF (1.0 / float(0xffffffffU))
+#define BIG 14962345.;
 
 // 3 outputs, 3 inputs
+uvec3 murmurHash33(uvec3 src) {
+    const uint M = 0x5bd1e995u;
+    uvec3 h = uvec3(1190494759u, 2147483647u, 3559788179u);
+    src *= M; src ^= src>>24u; src *= M;
+    h *= M; h ^= src.x; h *= M; h ^= src.y; h *= M; h ^= src.z;
+    h ^= h>>13u; h *= M; h ^= h>>15u;
+    return h;
+}
+
 vec3 hash33(vec3 p)
 {
+	p = p * BIG;
 	uvec3 q = uvec3(ivec3(p)) * UI3;
 	q = (q.x ^ q.y ^ q.z)*UI3;
-	return -1. + 2. * vec3(q) * UIF;
+	return vec3(q) * UIF;
 }
+
+// 3 outputs, 3 inputs
+/*
+vec3 hash33(vec3 src) {
+    uvec3 h = murmurHash33(floatBitsToUint(src));
+    return vec3(
+		uintBitsToFloat(h.x & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.y & 0x007fffffu | 0x3f800000u),
+		uintBitsToFloat(h.z & 0x007fffffu | 0x3f800000u)
+		) - 1.0; 1.0;
+}
+*/
 
 uvec2 murmurHash21(uint src) {
     const uint M = 0x5bd1e995u;

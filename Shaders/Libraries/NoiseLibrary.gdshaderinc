@@ -37,6 +37,46 @@ float perlinNoise2DOctaves(vec2 uv, float cellSize, float seed, int octaves) {
 	return noiseValue;
 }
 
+float GradientNoise3D(vec3 pos, float cellSize, float seed) {
+	vec3 hashedSeed = hash31(seed);
+	vec3 scaledPos = pos / cellSize;
+	vec3[8] cornerPositions;
+	float[8] dotProducts;
+	vec3 floors = floor(scaledPos);
+	vec3 ceils = ceil(scaledPos);
+	// calculate corner positions
+	cornerPositions[0] = floors;
+	cornerPositions[1] = vec3(ceils.x,floors.yz);
+	cornerPositions[2] = vec3(floors.x,ceils.y,floors.z);
+	cornerPositions[3] = vec3(ceils.xy,floors.z);
+	cornerPositions[4] = vec3(floors.xy,ceils.z);
+	cornerPositions[5] = vec3(ceils.x,floors.y,ceils.z);
+	cornerPositions[6] = vec3(floors.x,ceils.yz);
+	cornerPositions[7] = ceils;
+	
+	for(int i = 0; i < 8; i++) {
+		cornerPositions[i] *= cellSize;
+		// get normalized vector from angles
+		vec3 cornerVector = normalize(hash33(cornerPositions[i] + hashedSeed));
+		// calculate dot products
+		vec3 pointVector = pos - cornerPositions[i] ;
+		dotProducts[i] = dot(cornerVector,pointVector);
+	}
+
+	float smoothX = smoothstep(cornerPositions[0].x,cornerPositions[1].x,pos.x);
+	float smoothY = smoothstep(cornerPositions[0].y,cornerPositions[2].y,pos.y);
+	float smoothZ = smoothstep(cornerPositions[0].z,cornerPositions[4].z,pos.z);
+	float interpX[4];
+	for(int i = 0; i < 4; i++) {
+		interpX[i] = mix(dotProducts[i*2],dotProducts[i*2+1],smoothX);
+	}
+	float interpYTop = mix(interpX[0],interpX[1],smoothY);
+	float interpYBottom = mix(interpX[2],interpX[3],smoothY);
+	//readjust based on cell size
+	return clamp(2.*mix(interpYTop,interpYBottom ,smoothZ)/cellSize,-1,1);
+	return 0.;
+}
+
 float perlinNoise3D(vec3 pos, float cellSize, float seed) {
 	vec3 hashedSeed = hash31(seed);
 	vec3 scaledPos = pos / cellSize;
@@ -55,12 +95,8 @@ float perlinNoise3D(vec3 pos, float cellSize, float seed) {
 	cornerPositions[7] = ceils;
 	for(int i = 0; i < 8; i++) {
 		cornerPositions[i] *= cellSize;
-		// get normalized vector from angles
-		vec2 angles = hash23(cornerPositions[i] + hashedSeed);
-		angles.x *= TAU;
-		angles.y = angles.y * PI - (PI * 0.5);
-		vec2 planeVector = vec2(cos(angles.x),sin(angles.x));
-		vec3 cornerVector = vec3(planeVector * cos(angles.y),sin(angles.y));
+		// get normalized vector from 
+		vec3 cornerVector = 2. * hash33(cornerPositions[i] + hashedSeed) - 1.;
 		// calculate dot products
 		vec3 pointVector = pos - cornerPositions[i] ;
 		dotProducts[i] = dot(cornerVector,pointVector);

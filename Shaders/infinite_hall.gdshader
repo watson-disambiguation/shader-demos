@@ -18,6 +18,7 @@ uniform float aoDist;
 uniform int aoSamples;
 uniform float aoStrength = 2.;
 uniform float mergeRadius = 0.01;
+uniform int noiseOctaves = 2;
 uniform float hallSize;
 uniform float lightBlend;
 uniform vec3 brightColour : source_color;
@@ -52,7 +53,7 @@ float sdf(vec3 pos) {
 	
 	float result = round_merge(hall,pillars,mergeRadius);
 	result = merge(result,hallFloor);
-	result += perlinNoise3DOctaves(pos,0.25,0,2) * noiseSize;
+	result += perlinNoise3DOctaves(pos,0.25,0,noiseOctaves) * noiseSize;
 	return result;
 }
 
