@@ -26,7 +26,7 @@ const int maxSteps = 128;
 const float EPS = 0.0001;
 
 float surfacePlane(vec3 pos) {
-	return -pos.y - surfaceHeight;
+	return pos.y - surfaceHeight;
 }
 
 float repeatedRain( vec3 p, float s )
@@ -48,7 +48,7 @@ float repeatedRain( vec3 p, float s )
 
 float sdf(vec3 pos, vec3 camPos) {
 	float surface = surfacePlane(pos);
-	pos.y -= TIME * rainSpeed;
+	pos.y += TIME * rainSpeed;
 	float rain = repeatedRain(pos,rainSpacing);
 	rain = round_merge(rain,surface,mergeRadius);
 	return rain;
@@ -95,7 +95,7 @@ float raymarch(vec3 ro, vec3 rd) {
 void fragment() {
 	vec3 col = objColour;
 	vec3 ro = CAMERA_POSITION_WORLD;
-	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
+	vec3 rd = normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
 	float dist = raymarch(ro,rd);
 	vec3 pos = ro + rd * dist;
 	vec3 normal = normal(pos,ro);

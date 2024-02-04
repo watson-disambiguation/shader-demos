@@ -84,7 +84,7 @@ float occlusion(vec3 pos, vec3 normal) {
 
 void fragment() {
 	vec3 ro = CAMERA_POSITION_WORLD;
-	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
+	vec3 rd = normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
 	float dist = 0.;
 	float sample = 1.;
 	int steps = 0;

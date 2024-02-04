@@ -68,7 +68,7 @@ float raymarch(vec3 ro, vec3 rd) {
 
 void fragment() {
 	vec3 ro = CAMERA_POSITION_WORLD;
-	vec3 rd = -normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
+	vec3 rd = normalize( (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz );
 	float dist = raymarch(ro,rd);
 	vec3 pos = ro + rd * dist;
 	vec3 normal = normal(pos);

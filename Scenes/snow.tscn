@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ebyqx0kcbgew"]
 
 [ext_resource type="PackedScene" uid="uid://dc486be67gql4" path="res://Prefabs/raymarch_camera.tscn" id="1_t2nkc"]
-[ext_resource type="Shader" path="res://Shaders/rain.gdshader" id="2_xdpdn"]
+[ext_resource type="Shader" path="res://Shaders/snow.gdshader" id="2_xdpdn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d6vvl"]
 render_priority = 0
