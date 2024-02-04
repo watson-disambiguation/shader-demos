@@ -21,7 +21,7 @@ func _ready():
 	quad.mesh.material = raymarch_shader
 
 func _process(delta):
-	quad.mesh.material = raymarch_shader
+	print(Input.mouse_mode)
 	var theta = rotation.y
 	var vert = Vector3.UP * Input.get_axis("ui_in","ui_out")
 	var forward = Vector3(-sin(theta),0,-cos(theta)) * Input.get_axis("ui_down","ui_up")
