@@ -9,21 +9,21 @@ shader = ExtResource("2_xdpdn")
 shader_parameter/blurIterations = 10
 shader_parameter/blurTime = 0.01
 shader_parameter/nearFogBlend = 0.0
-shader_parameter/farFogBlend = 10.0
+shader_parameter/farFogBlend = 5.0
 shader_parameter/surfaceHeight = -1.0
 shader_parameter/radius = 0.005
 shader_parameter/rainSpeed = 0.5
-shader_parameter/rainSpacing = 0.27
+shader_parameter/rainSpacing = 0.25
 shader_parameter/offset = 0.4
 shader_parameter/mergeRadius = 0.1
 shader_parameter/aoDist = 1.15
 shader_parameter/aoSamples = 5
 shader_parameter/aoStrength = 0.565
-shader_parameter/fogColour = Color(0.227451, 0.278431, 0.345098, 1)
+shader_parameter/fogColour = Color(0.258824, 0.352941, 0.486275, 1)
 shader_parameter/objColour = Color(0.619608, 0.709804, 0.839216, 1)
-shader_parameter/camRadius = 0.0
+shader_parameter/camRadius = 1.0
 
-[node name="Rain" type="Node3D"]
+[node name="Snow" type="Node3D"]
 
 [node name="RaymarchCamera" parent="." instance=ExtResource("1_t2nkc")]
 raymarch_shader = SubResource("ShaderMaterial_d6vvl")

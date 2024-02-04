@@ -113,7 +113,6 @@ float perlinNoise3D(vec3 pos, float cellSize, float seed) {
 	float interpYBottom = mix(interpX[2],interpX[3],smoothY);
 	//readjust based on cell size
 	return clamp(2.*mix(interpYTop,interpYBottom ,smoothZ)/cellSize,-1,1);
-	return 0.;
 }
 
 float perlinNoise3DOctaves(vec3 pos, float cellSize, float seed, int octaves) {
