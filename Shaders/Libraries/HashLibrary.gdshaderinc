@@ -1,3 +1,6 @@
+#ifndef HASH_LIBRARY
+#define HASH_LIBRARY
+
 //https://www.shadertoy.com/view/ttc3zr
 #define UI0 1597334673U
 #define UI1 3812015801U
@@ -137,5 +140,4 @@ vec2 hash23(vec3 src) {
 		uintBitsToFloat(h.y & 0x007fffffu | 0x3f800000u)
 		) - 1.0;
 }
-
-
+#endif

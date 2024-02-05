@@ -1,3 +1,6 @@
+#ifndef PIXEL_LIBRARY
+#define PIXEL_LIBRARY
+
 uniform float pixelScale = 1.;
 
 vec2 pixelateUV(vec2 uv, vec2 numPixels) {
@@ -14,3 +17,5 @@ vec2 getNumPixels(vec2 uv, mat4 modelMatrix) {
 }
 
 varying vec2 numPixels;
+
+#endif

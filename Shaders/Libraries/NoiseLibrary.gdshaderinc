@@ -1,3 +1,5 @@
+#ifndef NOISE_LIBRARY
+#define NOISE_LIBRARY
 #include "HashLibrary.gdshaderinc"
 
 //TODO: Optimize noise, find out bottleneck in noise
@@ -127,3 +129,5 @@ float perlinNoise3DOctaves(vec3 pos, float cellSize, float seed, int octaves) {
 	}
 	return noiseValue;
 }
+
+#endif

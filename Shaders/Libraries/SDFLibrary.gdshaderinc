@@ -1,3 +1,6 @@
+#ifndef SDF_LIBRARY
+#define SDF_LIBRARY
+
 float circle(vec2 uv, vec2 center, float radius) {
 	return length(uv-center) - radius;
 }
@@ -52,3 +55,5 @@ float round_intersect(float shape1, float shape2, float radius){
 	float insideDistance = min(simpleIntersect,-radius);
     return  insideDistance + outsideDistance;
 }
+
+#endif
