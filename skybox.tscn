@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3fnwq4omumdo"]
+
+[ext_resource type="Shader" path="res://Shaders/sky_test.gdshader" id="1_erfkt"]
+[ext_resource type="Script" path="res://Prefabs/CameraMover.gd" id="2_qk836"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0tous"]
+shader = ExtResource("1_erfkt")
+
+[sub_resource type="Sky" id="Sky_1co1a"]
+sky_material = SubResource("ShaderMaterial_0tous")
+
+[sub_resource type="Environment" id="Environment_0vbgk"]
+background_mode = 2
+sky = SubResource("Sky_1co1a")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f38bv"]
+metallic = 1.0
+roughness = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8ioed"]
+material = SubResource("StandardMaterial3D_f38bv")
+size = Vector2(100, 100)
+
+[node name="Skybox" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0vbgk")
+
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.155, 0)
+script = ExtResource("2_qk836")
+rotation_speed = 0.005
+speed = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
+mesh = SubResource("PlaneMesh_8ioed")
+skeleton = NodePath("../..")
