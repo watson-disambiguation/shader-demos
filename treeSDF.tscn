@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bju8ajyoesuno"]
+
+[ext_resource type="Shader" path="res://Shaders/treeSDF.gdshader" id="1_pks8y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cmiwl"]
+render_priority = 0
+shader = ExtResource("1_pks8y")
+
+[sub_resource type="BoxMesh" id="BoxMesh_lnbpx"]
+material = SubResource("ShaderMaterial_cmiwl")
+flip_faces = true
+size = Vector3(2, 2, 2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nu5wk"]
+size = Vector2(10, 10)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0921327, -0.0788953)
+mesh = SubResource("BoxMesh_lnbpx")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.999988, -0.00493926, 0, 0.00493926, 0.999988, 0, 0, 0, 1, 0, -2.2841, 0)
+mesh = SubResource("PlaneMesh_nu5wk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.371724, 0.928343, 0, -0.928343, 0.371724, 0, 2.09827, 0)
+light_color = Color(0.67451, 0.227451, 0.0627451, 1)
+shadow_enabled = true
+shadow_bias = 0.683

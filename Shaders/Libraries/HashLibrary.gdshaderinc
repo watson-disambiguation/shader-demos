@@ -7,7 +7,6 @@
 #define UI2 uvec2(UI0, UI1)
 #define UI3 uvec3(UI0, UI1, 2798796415U)
 #define UIF (1.0 / float(0xffffffffU))
-#define BIG 14962345.;
 
 // 3 outputs, 3 inputs
 uvec3 murmurHash33(uvec3 src) {
@@ -21,7 +20,6 @@ uvec3 murmurHash33(uvec3 src) {
 
 vec3 hash33(vec3 p)
 {
-	p = p * BIG;
 	uvec3 q = uvec3(ivec3(p)) * UI3;
 	q = (q.x ^ q.y ^ q.z)*UI3;
 	return vec3(q) * UIF;
