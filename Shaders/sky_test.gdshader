@@ -1,7 +1,11 @@
 shader_type sky;
 
+
+
 #include "Libraries/SkyLibrary.gdshaderinc"
 
+uniform float starSpacing;
+
 void sky() {
-	COLOR = vec3(stars(EYEDIR));
+	COLOR = stars(EYEDIR,starSpacing);
 }
