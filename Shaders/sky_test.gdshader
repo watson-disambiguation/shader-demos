@@ -7,5 +7,7 @@ shader_type sky;
 uniform float starSpacing;
 
 void sky() {
-	COLOR = stars(EYEDIR,starSpacing);
+	vec3 output = stars(EYEDIR,starSpacing);
+	COLOR = output;
+	
 }

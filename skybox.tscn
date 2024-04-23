@@ -5,7 +5,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tous"]
 shader = ExtResource("1_erfkt")
-shader_parameter/starSpacing = 10.0
+shader_parameter/starSpacing = 20.0
 
 [sub_resource type="Sky" id="Sky_1co1a"]
 sky_material = SubResource("ShaderMaterial_0tous")
@@ -13,6 +13,10 @@ sky_material = SubResource("ShaderMaterial_0tous")
 [sub_resource type="Environment" id="Environment_0vbgk"]
 background_mode = 2
 sky = SubResource("Sky_1co1a")
+glow_enabled = true
+glow_hdr_threshold = 1.16
+glow_hdr_luminance_cap = 52.42
+glow_map_strength = 0.55
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8jxh2"]
 noise_type = 3
