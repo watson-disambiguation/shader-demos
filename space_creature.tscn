@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnexx3tacvias"]
+
+[ext_resource type="ArrayMesh" uid="uid://bh13slu305kfh" path="res://Models/Deer_Sculpt.obj" id="1_iecch"]
+[ext_resource type="Shader" path="res://Shaders/SpaceCreature.gdshader" id="2_4a1oi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x2sw8"]
+render_priority = 0
+shader = ExtResource("2_4a1oi")
+shader_parameter/seed = null
+shader_parameter/starDensity = 40.0
+shader_parameter/minFlicker = 0.1
+shader_parameter/maxFlicker = 1.0
+shader_parameter/fresnelThreshold = 0.755
+shader_parameter/fresnelWidth = 0.465
+shader_parameter/tint = Color(0.290196, 0.407843, 0.380392, 1)
+
+[node name="SpaceCreature" type="Node3D"]
+
+[node name="DeerSculpt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.114703, 0, -0.474178)
+mesh = ExtResource("1_iecch")
+surface_material_override/0 = SubResource("ShaderMaterial_x2sw8")
