@@ -1,11 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3fnwq4omumdo"]
+[gd_scene load_steps=6 format=3 uid="uid://b3fnwq4omumdo"]
 
 [ext_resource type="Shader" path="res://Shaders/sky_test.gdshader" id="1_erfkt"]
 [ext_resource type="Script" path="res://Prefabs/CameraMover.gd" id="2_qk836"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tous"]
 shader = ExtResource("1_erfkt")
-shader_parameter/starSpacing = 20.0
+shader_parameter/starSpacing = 100.0
+shader_parameter/minFlickerPeriod = 0.2
+shader_parameter/maxFlickerPeriod = 3.0
+shader_parameter/lightThreshold = 1.27
+shader_parameter/seed = 1
 
 [sub_resource type="Sky" id="Sky_1co1a"]
 sky_material = SubResource("ShaderMaterial_0tous")
@@ -13,27 +17,10 @@ sky_material = SubResource("ShaderMaterial_0tous")
 [sub_resource type="Environment" id="Environment_0vbgk"]
 background_mode = 2
 sky = SubResource("Sky_1co1a")
-glow_enabled = true
-glow_hdr_threshold = 1.16
-glow_hdr_luminance_cap = 52.42
-glow_map_strength = 0.55
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_8jxh2"]
-noise_type = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0i8i2"]
-as_normal_map = true
-noise = SubResource("FastNoiseLite_8jxh2")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f38bv"]
-metallic = 1.0
-roughness = 0.0
-normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_0i8i2")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_8ioed"]
-material = SubResource("StandardMaterial3D_f38bv")
-size = Vector2(100, 100)
+glow_strength = 0.64
+glow_bloom = 0.25
+glow_blend_mode = 1
+glow_map_strength = 0.69
 
 [node name="Skybox" type="Node3D"]
 
@@ -45,8 +32,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.155, 0)
 script = ExtResource("2_qk836")
 rotation_speed = 0.005
 speed = 10.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.72525, 0, 0)
-mesh = SubResource("PlaneMesh_8ioed")
-skeleton = NodePath("../..")
