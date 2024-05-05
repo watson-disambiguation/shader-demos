@@ -13,7 +13,7 @@ uniform vec3 tint : source_color;
 void fragment() {
 	vec3 dir = (INV_VIEW_MATRIX * vec4(VIEW,0)).xyz;
 	vec3 normalWorld = (INV_VIEW_MATRIX * vec4(NORMAL,0)).xyz;
-	vec3 color = stars(seed,dir,starDensity,minFlicker,maxFlicker);
+	vec3 color = stars(seed,dir,starDensity,minFlicker,maxFlicker,1.);
 	float edge = smoothstep(fresnelThreshold-fresnelWidth,fresnelThreshold,(1. - dot(dir,normalWorld)));
 	ALBEDO = (color + edge) * tint;
 	EMISSION = color;

@@ -11,7 +11,6 @@ uniform float lightThreshold;
 uniform int seed;
 
 void sky() {
-	vec3 output = stars(seed,EYEDIR,starSpacing,minFlickerPeriod,maxFlickerPeriod);
-	COLOR = output * smoothstep(vec3(lightThreshold/2.),vec3(lightThreshold),output);
+	COLOR = stars(seed,EYEDIR,starSpacing,minFlickerPeriod,maxFlickerPeriod,lightThreshold);
 	
 }
