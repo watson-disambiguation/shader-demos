@@ -6,14 +6,23 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_phqct"]
 render_priority = 0
 shader = ExtResource("2_yjgsu")
+shader_parameter/seaDepth = -2.95
 shader_parameter/starSpacing = 50.0
 shader_parameter/minFlickerPeriod = 0.5
 shader_parameter/maxFlickerPeriod = 2.0
 shader_parameter/lightThreshold = 1.0
 shader_parameter/seed = 0
-shader_parameter/sphereCenter = Vector3(0, 7, 0)
-shader_parameter/sphereRadius = 1.0
-shader_parameter/landColour = Color(0.784314, 0.215686, 0.301961, 1)
+shader_parameter/sphereCenter = Vector3(0, -4.165, 0)
+shader_parameter/sphereRadius = 6.165
+shader_parameter/landColour = Color(0.254902, 0.231373, 0.298039, 1)
+shader_parameter/horizonColour = Color(0.294118, 0.45098, 0.537255, 1)
+shader_parameter/skyColour = Color(0.321569, 0.67451, 0.85098, 1)
+shader_parameter/seaColour = Color(0.101961, 0.160784, 0.262745, 1)
+shader_parameter/fresnelPower = 3.89
+shader_parameter/depthFalloff = 0.38
+shader_parameter/boxCenter = Vector3(0, 0.165, 0)
+shader_parameter/boxSize = Vector3(2, 10, 2)
+shader_parameter/lightingMin = 0.475
 shader_parameter/maxDist = 100.0
 
 [node name="Node3D" type="Node3D"]
