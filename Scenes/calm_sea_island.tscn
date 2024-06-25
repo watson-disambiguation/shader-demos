@@ -6,7 +6,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_phqct"]
 render_priority = 0
 shader = ExtResource("2_yjgsu")
-shader_parameter/seaDepth = -2.95
+shader_parameter/seaDepth = -4.005
 shader_parameter/starSpacing = 50.0
 shader_parameter/minFlickerPeriod = 0.5
 shader_parameter/maxFlickerPeriod = 2.0
@@ -23,6 +23,8 @@ shader_parameter/depthFalloff = 0.38
 shader_parameter/boxCenter = Vector3(0, 0.165, 0)
 shader_parameter/boxSize = Vector3(2, 10, 2)
 shader_parameter/lightingMin = 0.475
+shader_parameter/edgeFoam = 8.8
+shader_parameter/waveHeight = 0.22
 shader_parameter/maxDist = 100.0
 
 [node name="Node3D" type="Node3D"]

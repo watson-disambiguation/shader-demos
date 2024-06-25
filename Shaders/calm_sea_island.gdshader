@@ -25,6 +25,8 @@ uniform float depthFalloff;
 uniform vec3 boxCenter;
 uniform vec3 boxSize;
 uniform float lightingMin;
+uniform float edgeFoam : hint_range(0.01,10.,0.01);
+uniform float waveHeight = 0.05;
 
 const int maxSteps = 128;
 #define EPS 0.01
@@ -32,7 +34,7 @@ const int maxSteps = 128;
 uniform float maxDist = 100.;
 
 float planeDist(vec3 ro, vec3 rd, float height) {
-	return -(ro.y + height) / rd.y;
+	return -(ro.y + height + sin(TIME) * waveHeight) / rd.y;
 }
 
 
@@ -95,11 +97,14 @@ void fragment() {
 	raymarchResult result = raymarch(ro,rd);
 	vec3 world = calcWorld(result,ro,rd);
 	vec3 reflectedView = reflect(rd,UP);
-	raymarchResult reflectedResult = raymarch(ro+rd*seaDist,reflectedView);
-	vec3 reflectedWorld = calcWorld(reflectedResult,ro+rd*seaDist,reflectedView);
+	vec3 reflectionPoint = ro+rd*seaDist;
+	raymarchResult reflectedResult = raymarch(reflectionPoint,reflectedView);
+	vec3 reflectedWorld = calcWorld(reflectedResult,reflectionPoint,reflectedView);
 	float waterDist = constrain(result.dist-seaDist);
 	vec3 waterDiffuse = mix(world,seaColour, waterDist);
 	vec3 waterSpecular = reflectedWorld;
 	vec3 sea = mix(waterDiffuse, waterSpecular,pow(1.+rd.y,fresnelPower));
+	float seaEdge = sdf(reflectionPoint) * edgeFoam;
+	sea = mix(vec3(1.),sea,clamp(seaEdge,0.,1.));
 	ALBEDO = seaDist > 0. && seaDist < result.dist ?  sea  : world; 
 }
