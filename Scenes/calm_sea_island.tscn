@@ -1,7 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdtfpn4vp55ve"]
+[gd_scene load_steps=7 format=3 uid="uid://cdtfpn4vp55ve"]
 
 [ext_resource type="PackedScene" uid="uid://dc486be67gql4" path="res://Prefabs/raymarch_camera.tscn" id="1_np6wh"]
 [ext_resource type="Shader" path="res://Shaders/calm_sea_island.gdshader" id="2_yjgsu"]
+
+[sub_resource type="Environment" id="Environment_ldeff"]
+tonemap_white = 2.0
+glow_enabled = true
+glow_levels/1 = 4.65
+glow_levels/2 = 0.72
+glow_levels/3 = 0.0
+glow_levels/5 = 0.0
+glow_intensity = 2.1
+glow_strength = 0.02
+glow_bloom = 0.34
+glow_blend_mode = 0
+glow_hdr_threshold = 4.0
+glow_hdr_scale = 1.87
+glow_map_strength = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gnob2"]
+seed = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7tayo"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_gnob2")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_phqct"]
 render_priority = 0
@@ -14,21 +37,36 @@ shader_parameter/lightThreshold = 1.0
 shader_parameter/seed = 0
 shader_parameter/sphereCenter = Vector3(0, -4.165, 0)
 shader_parameter/sphereRadius = 6.165
-shader_parameter/landColour = Color(0.254902, 0.231373, 0.298039, 1)
-shader_parameter/horizonColour = Color(0.294118, 0.45098, 0.537255, 1)
-shader_parameter/skyColour = Color(0.321569, 0.67451, 0.85098, 1)
-shader_parameter/seaColour = Color(0.101961, 0.160784, 0.262745, 1)
-shader_parameter/fresnelPower = 3.89
+shader_parameter/landColour = Color(0.86484, 0.381542, 0.388297, 1)
+shader_parameter/horizonColour = Color(0.429202, 0.732903, 0.827177, 1)
+shader_parameter/skyColour = Color(0.205304, 0.523805, 0.677483, 1)
+shader_parameter/seaColour = Color(0.118445, 0.088313, 0.416664, 1)
+shader_parameter/sunColour = Color(0.878452, 0.393791, 7.70092e-07, 1)
+shader_parameter/fresnelPower = 0.0
 shader_parameter/depthFalloff = 0.38
 shader_parameter/boxCenter = Vector3(0, 0.165, 0)
-shader_parameter/boxSize = Vector3(2, 10, 2)
-shader_parameter/lightingMin = 0.475
+shader_parameter/boxSize = Vector3(2, 8.965, 0.765)
+shader_parameter/holeCenter = Vector3(0, 5.66, 0)
+shader_parameter/holeSize = Vector3(1.095, 2.92, 2.085)
+shader_parameter/lightingMin = 0.095
 shader_parameter/edgeFoam = 8.8
 shader_parameter/waveHeight = 0.22
+shader_parameter/waveTexScale = 0.22
+shader_parameter/sunDir = Vector3(-0.08, 0.12, -0.35)
+shader_parameter/sunRadius = 0.02
+shader_parameter/waveSpeed = 0.03
+shader_parameter/shadowStep = 1.0
+shader_parameter/shadowHardness = 1.0
+shader_parameter/sunStrength = 100.0
 shader_parameter/maxDist = 100.0
+shader_parameter/waveNormals1 = SubResource("NoiseTexture2D_7tayo")
+shader_parameter/waveNormals2 = SubResource("NoiseTexture2D_7tayo")
 
 [node name="Node3D" type="Node3D"]
 
-[node name="RaymarchCamera" parent="." instance=ExtResource("1_np6wh")]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ldeff")
+
+[node name="RaymarchCamera" parent="WorldEnvironment" instance=ExtResource("1_np6wh")]
 transform = Transform3D(-0.999187, -0.00268883, 0.0402162, 0.00272674, -0.999996, 0.000887979, 0.0402136, 0.000996917, 0.999191, 0, 0.435, 0)
 raymarch_shader = SubResource("ShaderMaterial_phqct")
